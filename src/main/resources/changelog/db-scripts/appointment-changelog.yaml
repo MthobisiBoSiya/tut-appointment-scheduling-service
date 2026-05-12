@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: changelog/db-script/V01-create-appointment-table.sql
