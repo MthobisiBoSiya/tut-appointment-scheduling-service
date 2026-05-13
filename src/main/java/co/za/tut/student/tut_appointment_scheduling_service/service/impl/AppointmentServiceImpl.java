@@ -40,6 +40,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public List<Appointment> getAllAppointments() {
+        return repository.findAll();
+    }
+
+    @Override
     public List<Appointment> getStudentAppointments(Long studentId) {
         return repository.findByStudentId(studentId);
     }
@@ -47,6 +52,28 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getLecturerAppointments(Long lecturerId) {
         return repository.findByLecturerId(lecturerId);
+    }
+
+    @Override
+    public Appointment updateAppointmentStatus(Long id, String status) {
+        Appointment appointment = repository.findById(id).orElseThrow(() -> new RuntimeException("Appointment not found"));
+        appointment.setStatus(AppointmentStatus.valueOf(status.toUpperCase()));
+        return repository.save(appointment);
+    }
+
+    @Override
+    public void markExpiredAppointments() {
+        LocalDate today = LocalDate.now();
+        List<AppointmentStatus> validStatuses = List.of(AppointmentStatus.PENDING, AppointmentStatus.APPROVED);
+        List<Appointment> expiredAppointments = repository.findByAppointmentDateBeforeAndStatusNotIn(today, validStatuses);
+
+        for (Appointment appointment : expiredAppointments) {
+            appointment.setStatus(AppointmentStatus.EXPIRED);
+        }
+
+        if (!expiredAppointments.isEmpty()) {
+            repository.saveAll(expiredAppointments);
+        }
     }
 
     @Override

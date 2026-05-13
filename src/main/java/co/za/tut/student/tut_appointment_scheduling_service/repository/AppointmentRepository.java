@@ -24,4 +24,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     long countByStudentIdAndAppointmentDateAfter(Long studentId, LocalDate date);
 
     long countByLecturerIdAndAppointmentDateAfter(Long lecturerId, LocalDate date);
+
+    List<Appointment> findByAppointmentDateBeforeAndStatusNotIn(LocalDate date, List<AppointmentStatus> statuses);
 }

@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/appointment_db
     username: postgres
-    password: Mthobisi@123
+    password: K@lilun1
 
   jpa:
     hibernate:

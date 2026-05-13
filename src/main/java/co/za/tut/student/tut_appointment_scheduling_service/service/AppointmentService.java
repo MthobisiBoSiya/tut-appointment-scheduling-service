@@ -12,11 +12,17 @@ public interface AppointmentService {
 
     Appointment createAppointment(CreateAppointmentRequest request);
 
+    List<Appointment> getAllAppointments();
+
     List<Appointment> getStudentAppointments(Long studentId);
 
     List<Appointment> getLecturerAppointments(Long lecturerId);
 
+    Appointment updateAppointmentStatus(Long id, String status);
+
     StudentDashboardResponse getStudentDashboard(Long studentId);
 
     LecturerDashboardResponse getLecturerDashboard(Long lecturerId);
+
+    void markExpiredAppointments();
 }
